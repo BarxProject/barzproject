@@ -7,32 +7,141 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="app">
-        <header><h1>Barx Project</h1><div id="status" class="status offline">Offline</div></header>
-        
-        <div id="login-section" class="card">
-            <h2>Connect Device</h2>
-            <button id="btn-qr" class="primary">QR Code</button>
-            <div id="qr-container" style="text-align: center; margin-top: 15px;">
-                <img id="qr-img" src="" style="width: 100%; max-width: 300px; border-radius: 10px; background: white; padding: 10px; display: none;">
-                <p id="qr-text">Menunggu QR Code...</p>
+    <header>
+        <div class="logo"><span class="icon">⚡</span> BARX PROJECT</div>
+        <div id="status" class="status offline">Offline</div>
+    </header>
+
+    <main>
+        <!-- HOME TAB -->
+        <div id="tab-home" class="tab-content active">
+            <div class="card hero">
+                <div class="hero-text">
+                    <h2>Jester Project</h2>
+                    <p>Selamat datang di Barx Project</p>
+                </div>
+            </div>
+            <div class="card wallet" id="wallet-card">
+                <div class="wallet-icon">💳</div>
+                <div class="wallet-info">
+                    <p>Wallet</p>
+                    <h3 id="wallet-balance">Rp0</h3>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Quick Action</h3>
+                <div class="action-grid">
+                    <div class="btn-action"><span>📅</span> Daily Login</div>
+                    <div class="btn-action"><span>❤️</span> Donasi</div>
+                </div>
+                <div class="btn-action full" onclick="switchTab('bug')">
+                    <span>🐞</span> Bug
+                </div>
+            </div>
+            <div class="card">
+                <h3>Redeem</h3>
+                <div class="input-group">
+                    <input type="text" id="redeem-code" placeholder="Enter code">
+                    <button onclick="redeemCode()">✓ Redeem</button>
+                </div>
             </div>
         </div>
 
-        <div id="main-section" style="display: none;">
-            <div class="card"><h2>Target</h2><input type="text" id="target" placeholder="628xxx"><label style="display:block; margin-top:10px;"><input type="checkbox" id="isGroup"> Send via Group</label></div>
-            <div class="card"><h2>Bug Type</h2>
-                <div class="grid">
-                    <button class="bug-btn" data-type="delay_high">DELAY HIGH</button><button class="bug-btn" data-type="delay_hard">DELAY HARD</button>
-                    <button class="bug-btn" data-type="for_close">FOR CLOSE</button><button class="bug-btn" data-type="crash_ui">CRASH UI</button>
-                    <button class="bug-btn" data-type="freeze">FREEZE</button><button class="bug-btn" data-type="freeze_ui">FREEZE UI</button>
-                    <button class="bug-btn" data-type="blank">BLANK</button><button class="bug-btn" data-type="lock_chat">LOCK CHAT</button>
-                    <button class="bug-btn" data-type="crash_ios">CRASH IOS</button>
+        <!-- BUG TAB -->
+        <div id="tab-bug" class="tab-content">
+            <div class="card">
+                <div class="manage-sender">
+                    <span class="dot"></span> Manage Sender
+                </div>
+                <div class="input-group">
+                    <input type="text" id="phone" placeholder="Nomor WA (628xxx)">
+                    <button onclick="requestPairing()">Pairing Code</button>
+                </div>
+                <p id="pair-status" style="text-align:center; font-size:12px; margin-top:10px;"></p>
+            </div>
+
+            <div class="card">
+                <div class="status-bar">
+                    <span id="gs-status" class="badge off">STATUS GS : OFF</span>
+                </div>
+                <h3>Attack</h3>
+                <div class="sender-source">
+                    <button class="source-btn active">👤 PERSONAL</button>
+                    <button class="source-btn locked">🌐 GLOBAL 🔒</button>
+                </div>
+
+                <button class="btn-bug-select" onclick="openBugModal()">
+                    <div class="bug-icon">🐞</div>
+                    <div class="bug-text">
+                        <h4>Tap to select bug</h4>
+                        <p>Pilih bug yang ingin digunakan</p>
+                    </div>
+                    <span class="arrow">›</span>
+                </button>
+
+                <div class="input-group" style="margin-top: 15px;">
+                    <input type="text" id="target" placeholder="Target Nomor (628xxx)">
+                </div>
+                <button class="btn-send" onclick="sendBug()">➢ SEND</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <button onclick="switchTab('home')" id="nav-home" class="active">🏠<br>Home</button>
+        <button onclick="switchTab('bug')" id="nav-bug">🐞<br>Bug</button>
+    </nav>
+
+    <!-- BUG MODAL -->
+    <div id="bug-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>BUG TYPE</h3>
+                <p id="trial-status">9 tersedia</p>
+            </div>
+            <div class="bug-grid">
+                <div class="bug-item" data-type="delay_high" onclick="selectBug('delay_high')">
+                    <div class="icon" style="color: #a855f7;">⏱</div>
+                    <h4>DELAY HIGH</h4>
+                </div>
+                <div class="bug-item" data-type="delay_hard" onclick="selectBug('delay_hard')">
+                    <div class="icon" style="color: #6366f1;">⚙️</div>
+                    <h4>DELAY HARD</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="for_close" onclick="selectBug('for_close')">
+                    <div class="icon" style="color: #ef4444;">⚠️</div>
+                    <h4>FOR CLOSE</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="crash_ui" onclick="selectBug('crash_ui')">
+                    <div class="icon" style="color: #ef4444;">🐞</div>
+                    <h4>CRASH UI</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="freeze" onclick="selectBug('freeze')">
+                    <div class="icon" style="color: #06b6d4;">❄️</div>
+                    <h4>FREEZE</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="freeze_ui" onclick="selectBug('freeze_ui')">
+                    <div class="icon" style="color: #06b6d4;">⚙️</div>
+                    <h4>FREEZE UI</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="blank" onclick="selectBug('blank')">
+                    <div class="icon" style="color: #eab308;">🐞</div>
+                    <h4>BLANK</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="lock_chat" onclick="selectBug('lock_chat')">
+                    <div class="icon" style="color: #a855f7;">🐞</div>
+                    <h4>LOCK CHAT</h4><span class="pro-badge">PRO</span>
+                </div>
+                <div class="bug-item" data-type="crash_ios" onclick="selectBug('crash_ios')">
+                    <div class="icon" style="color: #a855f7;">📱</div>
+                    <h4>CRASH IOS</h4><span class="pro-badge">PRO</span>
                 </div>
             </div>
-            <div class="card"><h2>Execute</h2><input type="number" id="count" value="50" min="1"><button id="attack-btn" class="primary">LAUNCH ATTACK</button></div>
+            <button class="close-modal" onclick="closeBugModal()">Tutup</button>
         </div>
     </div>
+
     <script src="/app.js"></script>
 </body>
 </html>
