@@ -12,26 +12,15 @@
         
         <div id="login-section" class="card">
             <h2>Connect Device</h2>
-            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <button id="btn-qr" class="primary" style="flex: 1; opacity: 1;">QR Code</button>
-                <button id="btn-pair" class="primary" style="flex: 1; background: #333;">Pairing Code</button>
-            </div>
-
-            <div id="qr-container" style="text-align: center;">
+            <button id="btn-qr" class="primary">QR Code</button>
+            <div id="qr-container" style="text-align: center; margin-top: 15px;">
                 <img id="qr-img" src="" style="width: 100%; max-width: 300px; border-radius: 10px; background: white; padding: 10px; display: none;">
                 <p id="qr-text">Menunggu QR Code...</p>
-            </div>
-
-            <div id="pair-container" style="display: none;">
-                <input type="text" id="phone" placeholder="Contoh: 6289513532417">
-                <button id="btn-request" class="primary">Minta Kode</button>
-                <p id="pair-code" style="font-size: 24px; font-weight: bold; text-align: center; color: #9d4edd; letter-spacing: 2px;"></p>
-                <p id="pair-error" style="color: #e63946; text-align: center;"></p>
             </div>
         </div>
 
         <div id="main-section" style="display: none;">
-            <div class="card"><h2>Target</h2><input type="text" id="target" placeholder="628xxx"><label><input type="checkbox" id="isGroup"> Send via Group</label></div>
+            <div class="card"><h2>Target</h2><input type="text" id="target" placeholder="628xxx"><label style="display:block; margin-top:10px;"><input type="checkbox" id="isGroup"> Send via Group</label></div>
             <div class="card"><h2>Bug Type</h2>
                 <div class="grid">
                     <button class="bug-btn" data-type="delay_high">DELAY HIGH</button><button class="bug-btn" data-type="delay_hard">DELAY HARD</button>

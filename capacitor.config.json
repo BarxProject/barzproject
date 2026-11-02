@@ -3,6 +3,7 @@
   "appName": "Barx Project",
   "webDir": "public",
   "server": {
+    "url": "http://127.0.0.1:3000",
     "cleartext": true
   }
 }
